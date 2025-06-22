@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Alzheimer_Detection.Models;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Alzheimer_Detection.Controllers
 {
@@ -37,15 +38,24 @@ namespace Alzheimer_Detection.Controllers
             }
             Console.WriteLine(filePath);
             string modelPath = Path.Combine(Directory.GetCurrentDirectory(), "modele", "mymodel.keras");
-            string result = RunPrediction(modelPath, filePath);
+            string predictionString = RunPrediction(modelPath, filePath);
+
+
+
+            var match = Regex.Match(predictionString, @"Classe:\s*(.+?)\s+Confiance:\s*([\d.]+%)");
+
+
+            var classe = match.Groups[1].Value;
+            var confiance = match.Groups[2].Value;
 
             System.IO.File.Delete(filePath); // facultatif
 
             // 🔁 envoyer vers Home/Index avec le résultat
-            TempData["PredictionResult"] = result;
+            
             Console.WriteLine("after the result: ");
-            Console.WriteLine(result);
-            return RedirectToAction("Index", "Home");
+            Console.WriteLine("class : "+classe+" confiance : "+ confiance);
+            
+            return Json(new { success = true, predictClass = classe, predictConfiance = confiance });
         }
 
         // Exemple simple de fonction de prédiction
