@@ -419,6 +419,60 @@
             </div>
         </section>
 
+
+        <!-- Upload Section -->
+<section class="upload-section">
+    <div class="container">
+        <h2 class="section-title">Analyse d'images IRM</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="upload-card">
+                    <div class="card-header text-center">
+                        <i class="fas fa-upload me-2"></i>Analyse d’image médicale
+                    </div>
+                    <div class="card-body">
+                        <form asp-controller="Detection" asp-action="Analyze" method="post" enctype="multipart/form-data">
+                            <div class="mb-4">
+                                <label for="mriFile" class="form-label">Sélectionnez une image IRM :</label>
+                                <input class="form-control" type="file" id="mriFile" name="file" accept=".jpg,.jpeg,.png,.dcm" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary px-5">
+                                    <i class="fas fa-search me-2"></i>Analyser l’image
+                                </button>
+                            </div>
+                        </form>
+
+                        <div id="imagePreview" class="mt-4 text-center"></div>
+                        <div id="loading" class="mt-4 text-center" style="display: none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="mt-3 fw-medium">Analyse en cours... Veuillez patienter</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (TempData["PredictionResult"] != null)
+        {
+        <div class="alert alert-success mt-4 text-center">
+            <h4>Résultat de l’analyse :</h4>
+            <pre>@TempData["PredictionResult"]</pre>
+        </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+        <div class="alert alert-danger mt-4 text-center">
+            @TempData["Error"]
+        </div>
+        }
+    </div>
+</section>
+
+
         <!-- Patients Table Section -->
         <section class="patients-section">
             <div class="section-header">

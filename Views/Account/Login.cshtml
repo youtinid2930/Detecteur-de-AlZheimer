@@ -185,8 +185,7 @@
 
         .login-image {
             height: 100%;
-            background: linear-gradient(rgba(26, 107, 175, 0.8), rgba(44, 62, 80, 0.8)),
-                         url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+            background: linear-gradient(rgba(26, 107, 175, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
             background-size: cover;
             background-position: center;
             border-radius: 20px 0 0 20px;
@@ -259,8 +258,6 @@
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
         }
-
-        
     </style>
 </head>
 <body>
@@ -268,7 +265,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-brain"></i>Detection Alzheimer
+                <i class="fas fa-brain"></i>Détection Alzheimer
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -279,13 +276,13 @@
                         <a class="nav-link" href="#"><i class="fas fa-home me-1"></i>Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-info-circle me-1"></i>� propos</a>
+                        <a class="nav-link" href="#"><i class="fas fa-info-circle me-1"></i>À propos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-cogs me-1"></i>Fonctionnalit�s</a>
+                        <a class="nav-link" href="#"><i class="fas fa-cogs me-1"></i>Fonctionnalités</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-users me-1"></i>�quipe</a>
+                        <a class="nav-link" href="#"><i class="fas fa-users me-1"></i>Équipe</a>
                     </li>
                 </ul>
                 <div class="ms-lg-3 mt-3 mt-lg-0">
@@ -307,15 +304,15 @@
                             <div class="col-lg-6 d-none d-lg-block">
                                 <div class="login-image">
                                     <div class="image-caption">
-                                        <h3>D�tection Pr�coce d'Alzheimer par IA</h3>
-                                        <p>Notre plateforme utilise des algorithmes d'apprentissage profond pour analyser les images IRM c�r�brales et d�tecter les signes pr�coces de la maladie avec une pr�cision exceptionnelle.</p>
+                                        <h3>Détection Précoce d'Alzheimer par IA</h3>
+                                        <p>Notre plateforme utilise des algorithmes d'apprentissage profond pour analyser les images IRM cérébrales et détecter les signes précoces de la maladie avec une précision exceptionnelle.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="login-header">
                                     <h1 class="login-title"><i class="fas fa-sign-in-alt me-2"></i>Connexion</h1>
-                                    <p class="login-subtitle">Acc�dez � votre compte pour analyser des images IRM</p>
+                                    <p class="login-subtitle">Accédez à votre compte pour analyser des images IRM</p>
                                 </div>
                                 <div class="login-body">
                                     <form asp-controller="Account" asp-action="Login" method="post">
@@ -347,9 +344,9 @@
                                         </button>
 
                                         <div class="login-links">
-                                            <a href="#"><i class="fas fa-key me-1"></i>Mot de passe oubli� ?</a>
+                                            <a href="#"><i class="fas fa-key me-1"></i>Mot de passe oublié ?</a>
                                             <span class="mx-2">|</span>
-                                            <a asp-controller="Account" asp-action="Register"><i class="fas fa-user-plus me-1"></i>Cr�er un compte</a>
+                                            <a asp-controller="Account" asp-action="Register"><i class="fas fa-user-plus me-1"></i>Créer un compte</a>
                                         </div>
                                     </form>
                                 </div>
@@ -366,44 +363,46 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="footer-title">Detection Alzheimer</h4>
-                    <p>Plateforme innovante de d�tection pr�coce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
+                    <h4 class="footer-title">Détection Alzheimer</h4>
+                    <p>Plateforme innovante de détection précoce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h4 class="footer-title">Liens rapides</h4>
                     <div class="footer-links">
                         <a href="#"><i class="fas fa-chevron-right me-2"></i>Accueil</a>
-                        <a href="#"><i class="fas fa-chevron-right me-2"></i>� propos</a>
-                        <a href="#"><i class="fas fa-chevron-right me-2"></i>Fonctionnalit�s</a>
+                        <a href="#"><i class="fas fa-chevron-right me-2"></i>À propos</a>
+                        <a href="#"><i class="fas fa-chevron-right me-2"></i>Fonctionnalités</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <h4 class="footer-title">Contact</h4>
-                    <p><i class="fas fa-map-marker-alt me-2"></i>Errachidia Ain ati2</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Errachidia Ain Ati2</p>
                     <p><i class="fas fa-phone me-2"></i>+21269029018</p>
                     <p><i class="fas fa-envelope me-2"></i>contact@detection-alzheimer.ma</p>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 Detection Alzheimer. Tous droits r�serv�s.</p>
+                <p>&copy; 2023 Détection Alzheimer. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Animation pour les champs de formulaire au focus
-        document.querySelectorAll('.form-control').forEach(input => {
-            input.addEventListener('focus', function () {
-                this.parentElement.querySelector('.input-group-text').style.backgroundColor = 'rgba(52, 152, 219, 0.2)';
-                this.parentElement.querySelector('.input-group-text').style.borderColor = '#3498db';
-            });
 
-            input.addEventListener('blur', function () {
-                this.parentElement.querySelector('.input-group-text').style.backgroundColor = 'rgba(52, 152, 219, 0.1)';
-                this.parentElement.querySelector('.input-group-text').style.borderColor = '#e2e8f0';
-            });
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Animation pour les champs de formulaire au focus
+    document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('focus', function () {
+            this.parentElement.querySelector('.input-group-text').style.backgroundColor = 'rgba(52, 152, 219, 0.2)';
+            this.parentElement.querySelector('.input-group-text').style.borderColor = '#3498db';
         });
-    </script>
+
+        input.addEventListener('blur', function () {
+            this.parentElement.querySelector('.input-group-text').style.backgroundColor = 'rgba(52, 152, 219, 0.1)';
+            this.parentElement.querySelector('.input-group-text').style.borderColor = '#e2e8f0';
+        });
+    });
+</script>
 </body>
 </html>
