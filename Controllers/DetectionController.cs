@@ -55,7 +55,7 @@ namespace Alzheimer_Detection.Controllers
             string classPath = Path.Combine(Directory.GetCurrentDirectory(), "modele", "classes.json");
             var psi = new ProcessStartInfo
             {
-                FileName = @"C:\\Users\\hp\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+                FileName = @"C:\Users\yasst\AppData\Local\Programs\Python\Python310\\python.exe",
                 Arguments = $"\"{appPath}\" \"{modelPath}\" \"{classPath}\" \"{imagePath}\"",
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
