@@ -4,6 +4,12 @@ namespace Alzheimer_Detection.Models
 {
     public class User
     {
+
+        public User()
+        {
+            MRI_Image = Array.Empty<byte>();
+            ResultatTest = "";
+        }
         public int Id { get; set; }
 
         [Required(ErrorMessage = "L'email est requis.")]

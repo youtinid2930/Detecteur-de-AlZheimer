@@ -2,12 +2,13 @@
 .vs/
 *.user
 *.suo
+.vscode
 
 # Fichiers binaires / temporaires
 bin/
 obj/
 *.log
 
-# Fichiers système
+# Fichiers systï¿½me
 .DS_Store
 Thumbs.db

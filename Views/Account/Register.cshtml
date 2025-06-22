@@ -204,8 +204,7 @@
 
         .register-image {
             height: 100%;
-            background: linear-gradient(rgba(26, 107, 175, 0.8), rgba(44, 62, 80, 0.8)),
-                         url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+            background: linear-gradient(rgba(26, 107, 175, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
             background-size: cover;
             background-position: center;
             border-radius: 20px 0 0 20px;
@@ -286,8 +285,8 @@
         }
 
         /* Responsive */
-       
-        
+
+
     </style>
 </head>
 <body>
@@ -306,13 +305,13 @@
                         <a class="nav-link" href="#"><i class="fas fa-home me-1"></i>Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-info-circle me-1"></i>� propos</a>
+                        <a class="nav-link" href="#"><i class="fas fa-info-circle me-1"></i>  propos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-cogs me-1"></i>Fonctionnalit�s</a>
+                        <a class="nav-link" href="#"><i class="fas fa-cogs me-1"></i>Fonctionnalit s</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-users me-1"></i>�quipe</a>
+                        <a class="nav-link" href="#"><i class="fas fa-users me-1"></i> quipe</a>
                     </li>
                 </ul>
                 <div class="ms-lg-3 mt-3 mt-lg-0">
@@ -334,25 +333,26 @@
                             <div class="col-lg-6 d-none d-lg-block">
                                 <div class="register-image">
                                     <div class="image-caption">
-                                        <h3>D�tection Pr�coce d'Alzheimer</h3>
-                                        <p>Rejoignez notre plateforme pour b�n�ficier d'analyses avanc�es d'images IRM par intelligence artificielle.</p>
+                                        <h3>D tection Pr coce d'Alzheimer</h3>
+                                        <p>Rejoignez notre plateforme pour b n ficier d'analyses avanc es d'images IRM par intelligence artificielle.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="register-header">
-                                    <h1 class="register-title"><i class="fas fa-user-plus me-2"></i>Cr�er un compte</h1>
-                                    <p class="register-subtitle">Rejoignez notre plateforme m�dicale innovante</p>
+                                    <h1 class="register-title"><i class="fas fa-user-plus me-2"></i>Cr er un compte</h1>
+                                    <p class="register-subtitle">Rejoignez notre plateforme m dicale innovante</p>
                                 </div>
                                 <div class="register-body">
                                     <form asp-controller="Account" asp-action="Register" method="post">
+                                        @Html.AntiForgeryToken()
                                         <div class="mb-3">
                                             <label class="form-label" asp-for="FirstName">
-                                                <i class="fas fa-user"></i> Pr�nom
+                                                <i class="fas fa-user"></i> Prnom
                                             </label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                                <input asp-for="FirstName" class="form-control" placeholder="Votre pr�nom" required>
+                                                <input asp-for="FirstName" class="form-control" placeholder="Votre pr nom" required>
                                             </div>
                                             <span asp-validation-for="FirstName" class="text-danger"></span>
                                         </div>
@@ -385,14 +385,14 @@
                                             </label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                                <input asp-for="Password" type="password" class="form-control" placeholder="Cr�ez un mot de passe" required>
+                                                <input asp-for="Password" type="password" class="form-control" placeholder="Cr ez un mot de passe" required>
                                             </div>
                                             <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label" asp-for="Role">
-                                                <i class="fas fa-user-md"></i> R�le
+                                                <i class="fas fa-user-md"></i> R le
                                             </label>
                                             <div class="input-group">
                                                 <span class="input-group-text"><i class="fas fa-user-md"></i></span>
@@ -409,16 +409,16 @@
                                         <div class="form-check mb-4">
                                             <input class="form-check-input" type="checkbox" id="terms" required>
                                             <label class="form-check-label" for="terms">
-                                                J'accepte les <a href="#">termes et conditions</a> ainsi que la <a href="#">politique de confidentialit�</a>
+                                                J'accepte les <a href="#">termes et conditions</a> ainsi que la <a href="#">politique de confidentialit </a>
                                             </label>
                                         </div>
 
                                         <button type="submit" class="btn btn-register">
-                                            <i class="fas fa-user-plus me-2"></i>Cr�er mon compte
+                                            <i class="fas fa-user-plus me-2"></i>Cr er mon compte
                                         </button>
 
                                         <div class="register-links">
-                                            <span>D�j� inscrit ?</span>
+                                            <span>D j  inscrit ?</span>
                                             <a asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt me-1"></i>Connectez-vous</a>
                                         </div>
                                     </form>
@@ -437,14 +437,14 @@
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <h4 class="footer-title">Detection Alzheimer</h4>
-                    <p>Plateforme innovante de d�tection pr�coce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
+                    <p>Plateforme innovante de d tection pr coce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h4 class="footer-title">Liens rapides</h4>
                     <div class="footer-links">
                         <a href="#"><i class="fas fa-chevron-right me-2"></i>Accueil</a>
-                        <a href="#"><i class="fas fa-chevron-right me-2"></i>� propos</a>
-                        <a href="#"><i class="fas fa-chevron-right me-2"></i>Fonctionnalit�s</a>
+                        <a href="#"><i class="fas fa-chevron-right me-2"></i>  propos</a>
+                        <a href="#"><i class="fas fa-chevron-right me-2"></i>Fonctionnalit s</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -455,7 +455,7 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 Detection Alzheimer. Tous droits r�serv�s.</p>
+                <p>&copy; 2023 Detection Alzheimer. Tous droits r serv s.</p>
             </div>
         </div>
     </footer>

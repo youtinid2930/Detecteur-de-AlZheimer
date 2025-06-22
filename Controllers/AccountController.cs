@@ -33,25 +33,44 @@ namespace Alzheimer_Detection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user)
         {
+            Console.WriteLine($"user Role 1: {user?.Role}"); // par exemple
+            Console.WriteLine($"ModelState valid: {ModelState.IsValid}");
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    var key = state.Key;
+                    var errors = state.Value.Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Erreur sur {key} : {error.ErrorMessage}");
+                    }
+                }
+                return View(user);
+            }
+
+
             if (ModelState.IsValid)
             {
+                Console.WriteLine("I am here in the beginig");
                 // Vérifier si l'email existe déjà
                 if (await _context.Users.AnyAsync(u => u.Email == user.Email))
                 {
                     ModelState.AddModelError("Email", "Cet email est déjà utilisé");
                     return View(user);
                 }
-
+                Console.WriteLine($"user Role 2: {user?.Role}"); // par exemple
                 // Hasher le mot de passe
                 user.Password = HashPassword(user.Password);
 
                 // Valeurs par défaut pour les nouveaux utilisateurs
                 user.ResultatTest = "non-defini";
-                user.Role = "Patient"; // Par défaut, tous les nouveaux sont des patients
+                
 
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-
+                Console.WriteLine($"user Role 3: {user?.Role}"); // par exemple
                 // Créer l'identité de l'utilisateur
                 var claims = new List<Claim>
                 {
@@ -61,11 +80,13 @@ namespace Alzheimer_Detection.Controllers
                     new Claim(ClaimTypes.Surname, user.LastName),
                     new Claim(ClaimTypes.Role, user.Role)
                 };
-
+                Console.WriteLine($"user Role 4: {user?.Role}"); // par exemple
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                Console.WriteLine("User Role 5: ", user.Role);
 
                 // Stocker les informations dans la session
                 HttpContext.Session.SetInt32("UserId", user.Id);
