@@ -31,8 +31,8 @@ namespace Alzheimer_Detection.Controllers
 
             // Calculer les statistiques
             int totalPatients = patients.Count;
-            int alzheimerPatients = patients.Count(p => p.RésultatTest == "alzheimer-maladi");
-            int healthyPatients = patients.Count(p => p.RésultatTest == "non-maladia-alzheimer");
+            int alzheimerPatients = patients.Count(p => p.ResultatTest == "alzheimer-maladi");
+            int healthyPatients = patients.Count(p => p.ResultatTest == "non-maladia-alzheimer");
 
             ViewBag.TotalPatients = totalPatients;
             ViewBag.AlzheimerPatients = alzheimerPatients;
@@ -52,7 +52,7 @@ namespace Alzheimer_Detection.Controllers
                 return NotFound();
             }
 
-            patient.RésultatTest = resultatTest;
+            patient.ResultatTest = resultatTest;
             _context.Update(patient);
             await _context.SaveChangesAsync();
 
