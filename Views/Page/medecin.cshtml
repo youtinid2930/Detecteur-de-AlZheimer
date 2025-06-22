@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Patients - Detection Alzheimer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a6baf;
+            --secondary: #3498db;
+            --accent: #2c3e50;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        
+        .navbar {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 1rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+
+            .navbar-brand i {
+                margin-right: 10px;
+                font-size: 1.5rem;
+            }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 4px;
+            margin: 0 3px;
+            transition: all 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: white !important;
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+        /* Page Title */
+        .page-title {
+            padding: 2rem 0;
+            background: white;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title h1 {
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .stats-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            height: 100%;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+            .stats-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .stats-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .stats-icon-patients {
+            background: rgba(52, 152, 219, 0.15);
+            color: var(--primary);
+        }
+
+        .stats-icon-alzheimer {
+            background: rgba(220, 53, 69, 0.15);
+            color: var(--danger);
+        }
+
+        .stats-icon-healthy {
+            background: rgba(40, 167, 69, 0.15);
+            color: var(--success);
+        }
+
+        .stats-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+
+        /* Patients Table */
+        .patients-section {
+            margin-bottom: 3rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.2rem 1.5rem;
+            font-weight: 600;
+        }
+
+        .table-container {
+            padding: 1.5rem;
+        }
+
+        .table thead th {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--accent);
+            font-weight: 600;
+            border-top: none;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .patient-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .status-badge {
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .status-alzheimer {
+            background-color: rgba(220, 53, 69, 0.15);
+            color: var(--danger);
+        }
+
+        .status-healthy {
+            background-color: rgba(40, 167, 69, 0.15);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #d39e00;
+        }
+
+        .btn-modify {
+            background-color: rgba(52, 152, 219, 0.1);
+            border: none;
+            color: var(--primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-modify:hover {
+                background-color: var(--primary);
+                color: white;
+            }
+
+        .image-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .image-placeholder:hover {
+                background-color: #dee2e6;
+            }
+
+        .doctor-badge {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 0.8rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            color: white;
+            padding: 3rem 0 1.5rem;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+            .footer-title::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 50px;
+                height: 3px;
+                background: white;
+                border-radius: 2px;
+            }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+            .footer-links a:hover {
+                color: white;
+                padding-left: 8px;
+            }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Modal */
+        .modal-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        /* Access Restricted */
+        .access-restricted {
+            display: none;
+            text-align: center;
+            padding: 5rem 0;
+        }
+        
+        .access-icon {
+            font-size: 5rem;
+            color: var(--danger);
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-brain"></i>Detection Alzheimer
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i>Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-users me-1"></i>Patients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-chart-line me-1"></i>Statistiques</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cog me-1"></i>Paramètres</a>
+                    </li>
+                </ul>
+                <div class="ms-lg-3 mt-3 mt-lg-0">
+                    <div class="dropdown">
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-md me-1"></i>Dr. Martin
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Paramètres</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content - Only for Doctors -->
+    <div id="doctor-content">
+        <!-- Page Title -->
+        <section class="page-title">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1><i class="fas fa-user-injured me-3"></i>Gestion des Patients</h1>
+                        <p>Consultez et gérez les dossiers médicaux de vos patients <span class="doctor-badge">Accès Médecin</span></p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Nouveau Patient
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="stats-card">
+                            <div class="stats-icon stats-icon-patients">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stats-number">42</div>
+                            <div class="stats-label">Patients Totaux</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stats-card">
+                            <div class="stats-icon stats-icon-alzheimer">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="stats-number">15</div>
+                            <div class="stats-label">Patients avec Alzheimer</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stats-card">
+                            <div class="stats-icon stats-icon-healthy">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="stats-number">27</div>
+                            <div class="stats-label">Patients en Bonne Santé</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patients Table Section -->
+        <section class="patients-section">
+            <div class="section-header">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h5 class="mb-0"><i class="fas fa-list me-2"></i>Liste des Patients</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Rechercher un patient...">
+                                <button class="btn btn-light" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-container">
+                <div class="container">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Patient</th>
+                                    <th>Email</th>
+                                    <th>Âge</th>
+                                    <th>Image IRM</th>
+                                    <th>Résultat Test</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>P001</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="patient-avatar me-3">JD</div>
+                                            <div>
+                                                <div class="fw-medium">Jean Dupont</div>
+                                                <div class="text-muted small">Homme, 68 ans</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>jean.dupont@example.com</td>
+                                    <td>68</td>
+                                    <td>
+                                        <div class="image-placeholder" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                                            <i class="fas fa-plus me-1"></i> Ajouter une image
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-alzheimer">Alzheimer-Maladi</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-modify" data-bs-toggle="modal" data-bs-target="#patientModal">
+                                            <i class="fas fa-edit me-1"></i>Modifier
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>P002</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="patient-avatar me-3">MS</div>
+                                            <div>
+                                                <div class="fw-medium">Marie Simon</div>
+                                                <div class="text-muted small">Femme, 72 ans</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>marie.simon@example.com</td>
+                                    <td>72</td>
+                                    <td>
+                                        <div class="image-placeholder" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                                            <i class="fas fa-plus me-1"></i> Ajouter une image
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-healthy">Non-Maladia-Alzheimer</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-modify" data-bs-toggle="modal" data-bs-target="#patientModal">
+                                            <i class="fas fa-edit me-1"></i>Modifier
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>P003</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="patient-avatar me-3">PL</div>
+                                            <div>
+                                                <div class="fw-medium">Pierre Lambert</div>
+                                                <div class="text-muted small">Homme, 65 ans</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>pierre.lambert@example.com</td>
+                                    <td>65</td>
+                                    <td>
+                                        <div class="image-placeholder" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                                            <i class="fas fa-plus me-1"></i> Ajouter une image
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-alzheimer">Alzheimer-Maladi</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-modify" data-bs-toggle="modal" data-bs-target="#patientModal">
+                                            <i class="fas fa-edit me-1"></i>Modifier
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>P004</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="patient-avatar me-3">CM</div>
+                                            <div>
+                                                <div class="fw-medium">Chantal Moreau</div>
+                                                <div class="text-muted small">Femme, 70 ans</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>chantal.moreau@example.com</td>
+                                    <td>70</td>
+                                    <td>
+                                        <div class="image-placeholder" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                                            <i class="fas fa-plus me-1"></i> Ajouter une image
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-healthy">Non-Maladia-Alzheimer</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-modify" data-bs-toggle="modal" data-bs-target="#patientModal">
+                                            <i class="fas fa-edit me-1"></i>Modifier
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>P005</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="patient-avatar me-3">RL</div>
+                                            <div>
+                                                <div class="fw-medium">Robert Lefevre</div>
+                                                <div class="text-muted small">Homme, 75 ans</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>robert.lefevre@example.com</td>
+                                    <td>75</td>
+                                    <td>
+                                        <div class="image-placeholder" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                                            <i class="fas fa-plus me-1"></i> Ajouter une image
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge status-pending">En attente</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-modify" data-bs-toggle="modal" data-bs-target="#patientModal">
+                                            <i class="fas fa-edit me-1"></i>Modifier
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-left"></i></a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <h4 class="footer-title">Detection Alzheimer</h4>
+                        <p>Plateforme innovante de détection précoce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                        <h4 class="footer-title">Liens rapides</h4>
+                        <div class="footer-links">
+                            <a href="#"><i class="fas fa-chevron-right me-2"></i>Accueil</a>
+                            <a href="#"><i class="fas fa-chevron-right me-2"></i>Patients</a>
+                            <a href="#"><i class="fas fa-chevron-right me-2"></i>Statistiques</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <h4 class="footer-title">Contact</h4>
+                        <p><i class="fas fa-map-marker-alt me-2"></i>Errachidia Ain ati2</p>
+                        <p><i class="fas fa-phone me-2"></i>+21269029018</p>
+                        <p><i class="fas fa-envelope me-2"></i>contact@detection-alzheimer.ma</p>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 Detection Alzheimer. Tous droits réservés.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Patient Modal -->
+        <div class="modal fade" id="patientModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Modifier le Patient</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Patient" asp-action="Save" method="post">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Prénom</label>
+                                        <input type="text" class="form-control" value="Jean">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nom</label>
+                                        <input type="text" class="form-control" value="Dupont">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" value="jean.dupont@example.com">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Âge</label>
+                                        <input type="number" class="form-control" value="68">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Résultat du Test</label>
+                                <select class="form-select">
+                                    <option value="alzheimer-maladi" selected>Alzheimer-Maladi</option>
+                                    <option value="non-maladia-alzheimer">Non-Maladia-Alzheimer</option>
+                                    <option value="en-attente">En attente</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Notes Médicales</label>
+                                <textarea class="form-control" rows="4">Patient présentant des signes modérés de la maladie d'Alzheimer. Recommandation : suivi mensuel et traitement médicamenteux.</textarea>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Annuler</button>
+                                <button type="button" class="btn btn-primary">Enregistrer les modifications</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Modal -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-upload me-2"></i>Ajouter une image IRM</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-4">
+                                <label class="form-label">Sélectionner une image IRM</label>
+                                <input class="form-control" type="file" accept=".jpg,.jpeg,.png,.dcm">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Ou utiliser l'appareil photo</label>
+                                <button class="btn btn-outline-secondary w-100">
+                                    <i class="fas fa-camera me-2"></i>Prendre une photo
+                                </button>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Annuler</button>
+                                <button type="button" class="btn btn-primary">Télécharger</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Access Restricted Message -->
+    <div id="access-restricted" class="access-restricted">
+        <div class="container">
+            <div class="access-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2 class="mb-3">Accès Réservé aux Médecins</h2>
+            <p class="lead mb-4">Cette page est uniquement accessible aux professionnels de santé autorisés.</p>
+            <div class="alert alert-danger w-75 mx-auto">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Vous n'avez pas les autorisations nécessaires pour accéder à cette page.
+            </div>
+            <a href="#" class="btn btn-primary mt-4">
+                <i class="fas fa-home me-2"></i>Retour à l'accueil
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simulate doctor access (in a real app, this would come from authentication)
+        const isDoctor = true; // Change to false to see the restricted access message
+        
+        // Show/hide content based on access
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isDoctor) {
+                document.getElementById('doctor-content').style.display = 'block';
+                document.getElementById('access-restricted').style.display = 'none';
+            } else {
+                document.getElementById('doctor-content').style.display = 'none';
+                document.getElementById('access-restricted').style.display = 'block';
+            }
+            
+            // Update stats function
+            function updateStats() {
+                const alzheimerPatients = document.querySelectorAll('.status-alzheimer').length;
+                const healthyPatients = document.querySelectorAll('.status-healthy').length;
+                const pendingPatients = document.querySelectorAll('.status-pending').length;
+                const totalPatients = alzheimerPatients + healthyPatients + pendingPatients;
+                
+                document.querySelectorAll('.stats-number')[0].textContent = totalPatients;
+                document.querySelectorAll('.stats-number')[1].textContent = alzheimerPatients;
+                document.querySelectorAll('.stats-number')[2].textContent = healthyPatients;
+            }
+            
+            // Initialize stats
+            updateStats();
+            
+           
+            document.querySelectorAll('.image-placeholder').forEach(placeholder => {
+                placeholder.addEventListener('click', function() {
+                    // Simulate image upload
+                    setTimeout(() => {
+                        this.innerHTML = '<div class="text-success"><i class="fas fa-check-circle me-1"></i> Image ajoutée</div>';
+                        this.classList.remove('image-placeholder');
+                        this.classList.add('bg-success-light');
+                    }, 1500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
