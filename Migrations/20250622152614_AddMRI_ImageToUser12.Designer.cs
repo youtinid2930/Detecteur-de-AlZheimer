@@ -4,6 +4,7 @@ using Alzheimer_Detection.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alzheimer_Detection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250622152614_AddMRI_ImageToUser12")]
+    partial class AddMRI_ImageToUser12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +49,6 @@ namespace Alzheimer_Detection.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("MRI_Image")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Password")
@@ -54,7 +56,6 @@ namespace Alzheimer_Detection.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResultatTest")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")

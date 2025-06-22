@@ -5,6 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace Alzheimer_Detection.Controllers
 {
@@ -14,7 +19,6 @@ namespace Alzheimer_Detection.Controllers
 
         public AccountController(ApplicationDbContext context)
         {
-            _context = context;
             _context = context;
         }
 
@@ -41,10 +45,29 @@ namespace Alzheimer_Detection.Controllers
                 // Hasher le mot de passe
                 user.Password = HashPassword(user.Password);
 
+                // Valeurs par défaut pour les nouveaux utilisateurs
+                user.ResultatTest = "non-defini";
+                user.Role = "Patient"; // Par défaut, tous les nouveaux sont des patients
+
                 _context.Add(user);
                 await _context.SaveChangesAsync();
 
-                // Connecter l'utilisateur directement après inscription
+                // Créer l'identité de l'utilisateur
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.GivenName, user.FirstName),
+                    new Claim(ClaimTypes.Surname, user.LastName),
+                    new Claim(ClaimTypes.Role, user.Role)
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                // Stocker les informations dans la session
                 HttpContext.Session.SetInt32("UserId", user.Id);
                 HttpContext.Session.SetString("UserRole", user.Role);
                 HttpContext.Session.SetString("UserFirstName", user.FirstName);
@@ -56,7 +79,7 @@ namespace Alzheimer_Detection.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Dashboard", "Patient");
                 }
             }
             return View(user);
@@ -77,6 +100,22 @@ namespace Alzheimer_Detection.Controllers
 
             if (user != null && VerifyPassword(password, user.Password))
             {
+                // Créer l'identité de l'utilisateur
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.GivenName, user.FirstName),
+                    new Claim(ClaimTypes.Surname, user.LastName),
+                    new Claim(ClaimTypes.Role, user.Role)
+                };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                // Stocker les informations dans la session
                 HttpContext.Session.SetInt32("UserId", user.Id);
                 HttpContext.Session.SetString("UserRole", user.Role);
                 HttpContext.Session.SetString("UserFirstName", user.FirstName);
@@ -88,7 +127,7 @@ namespace Alzheimer_Detection.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Dashboard", "Patient");
                 }
             }
 
@@ -97,8 +136,9 @@ namespace Alzheimer_Detection.Controllers
         }
 
         // GET: /Account/Logout
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }

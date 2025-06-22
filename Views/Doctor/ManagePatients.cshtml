@@ -359,7 +359,7 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/Account/Logout"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                                <li><a class="dropdown-item" href="/Account/Logout"><i class="fas fa-sign-out-alt me-2"></i>DÃ©connexion</a></li>
                             </ul>
                         </div>
                     </div>
@@ -373,11 +373,11 @@
                 <div class="row align-items-center">
                     <div class="col-md-8">
                         <h1><i class="fas fa-user-injured me-3"></i>Gestion des Patients</h1>
-                        <p>Consultez et gérez les dossiers médicaux de vos patients <span class="doctor-badge">Accès Médecin</span></p>
+                        <p>Consultez et gÃ©rez les dossiers mÃ©dicaux de vos patients <span class="doctor-badge">AccÃ¨s MÃ©decin</span></p>
                     </div>
                     <div class="col-md-4 text-md-end">
                         <a href="/" class="btn btn-primary">
-                            <i class="fas fa-home me-2"></i>Retour à l'accueil
+                            <i class="fas fa-home me-2"></i>Retour Ã  l'accueil
                         </a>
                     </div>
                 </div>
@@ -412,7 +412,7 @@
                                 <i class="fas fa-heartbeat"></i>
                             </div>
                             <div class="stats-number">@healthyPatients</div>
-                            <div class="stats-label">Patients en Bonne Santé</div>
+                            <div class="stats-label">Patients en Bonne SantÃ©</div>
                         </div>
                     </div>
                 </div>
@@ -447,9 +447,9 @@
                                     <th>ID</th>
                                     <th>Patient</th>
                                     <th>Email</th>
-                                    <th>Âge</th>
+                                    <th>Ã‚ge</th>
                                     <th>Image IRM</th>
-                                    <th>Résultat Test</th>
+                                    <th>RÃ©sultat Test</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -463,7 +463,7 @@
                                             <div class="patient-avatar me-3">@patient.FirstName[0]@patient.LastName[0]</div>
                                             <div>
                                                 <div class="fw-medium">@patient.FirstName @patient.LastName</div>
-                                                <div class="text-muted small">@(patient.Age.HasValue ? $"{patient.Age} ans" : "Âge non renseigné")</div>
+                                                <div class="text-muted small">@(patient.Age.HasValue ? $"{patient.Age} ans" : "Ã‚ge non renseignÃ©")</div>
                                             </div>
                                         </div>
                                     </td>
@@ -488,11 +488,11 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (patient.RésultatTest == "alzheimer-maladi")
+                                        @if (patient.ResultatTest == "alzheimer-maladi")
                                         {
                                         <span class="status-badge status-alzheimer">Alzheimer-Maladi</span>
                                         }
-                                        else if (patient.RésultatTest == "non-maladia-alzheimer")
+                                        else if (patient.ResultatTest == "non-maladia-alzheimer")
                                         {
                                         <span class="status-badge status-healthy">Non-Maladia-Alzheimer</span>
                                         }
@@ -509,93 +509,6 @@
                                         </button>
                                     </td>
                                 </tr>
-
- <!-- Modals for each patient -->
- <!-- Upload Modal -->
-                                <div class="modal fade" id="uploadModal_@patient.Id" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title"><i class="fas fa-upload me-2"></i>Ajouter une image IRM</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form asp-controller="Doctor" asp-action="UploadImage" method="post" enctype="multipart/form-data">
-                                                <input type="hidden" name="id" value="@patient.Id" />
-                                                <div class="modal-body">
-                                                    <div class="mb-4">
-                                                        <label class="form-label">Sélectionner une image IRM</label>
-                                                        <input class="form-control" type="file" name="file" accept=".jpg,.jpeg,.png,.dcm">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Annuler</button>
-                                                    <button type="submit" class="btn btn-primary">Télécharger</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
- <!-- Edit Patient Modal -->
-                                <div class="modal fade" id="patientModal_@patient.Id" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Modifier le Patient</h5>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form asp-controller="Doctor" asp-action="UpdatePatient" method="post">
-                                                <input type="hidden" name="id" value="@patient.Id" />
-                                                <div class="modal-body">
-                                                    <div class="row mb-4">
-                                                        <div class="col-md-6">
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Prénom</label>
-                                                                <input type="text" class="form-control" value="@patient.FirstName" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="mb-3">
-                                                                <label class="form-label">Nom</label>
-                                                                <input type="text" class="form-control" value="@patient.LastName" readonly>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mb-4">
-                                                        <label class="form-label">Résultat du Test</label>
-                                                        <select name="resultatTest" class="form-select">
-                                                            <option value="alzheimer-maladi" selected="@(patient.RésultatTest == "alzheimer-maladi")">Alzheimer-Maladi</option>
-                                                            <option value="non-maladia-alzheimer" selected="@(patient.RésultatTest == "non-maladia-alzheimer")">Non-Maladia-Alzheimer</option>
-                                                            <option value="" selected="@(string.IsNullOrEmpty(patient.RésultatTest))">En attente</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Annuler</button>
-                                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
- <!-- Image View Modal -->
-                                <div class="modal fade" id="imageModal_@patient.Id" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title"><i class="fas fa-image me-2"></i>Image IRM</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-center">
-                                                <img src="data:image/jpeg;base64,@Convert.ToBase64String(patient.MRI_Image)"
-                                                     class="img-fluid"
-                                                     alt="Image IRM de @patient.FirstName @patient.LastName">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             }
                             </tbody>
                         </table>
@@ -610,7 +523,7 @@
                 <div class="row">
                     <div class="col-lg-4 mb-4 mb-lg-0">
                         <h4 class="footer-title">Detection Alzheimer</h4>
-                        <p>Plateforme innovante de détection précoce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
+                        <p>Plateforme innovante de dÃ©tection prÃ©coce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
                     </div>
                     <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                         <h4 class="footer-title">Liens rapides</h4>
@@ -627,36 +540,129 @@
                     </div>
                 </div>
                 <div class="copyright">
-                    <p>&copy; 2023 Detection Alzheimer. Tous droits réservés.</p>
+                    <p>&copy; 2023 Detection Alzheimer. Tous droits rÃ©servÃ©s.</p>
                 </div>
             </div>
         </footer>
 
+        <!-- Modals for each patient -->
+        @foreach (var patient in Model)
+    {
+        <!-- Upload Modal -->
+        <div class="modal fade" id="uploadModal_@patient.Id" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-upload me-2"></i>Ajouter une image IRM</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form asp-controller="Doctor" asp-action="UploadImage" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="@patient.Id" />
+                        <div class="modal-body">
+                            <div class="mb-4">
+                                <label class="form-label">SÃ©lectionner une image IRM</label>
+                                <input class="form-control" type="file" name="file" accept=".jpg,.jpeg,.png,.dcm">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary">TÃ©lÃ©charger</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+ <!-- Edit Patient Modal -->
+        <div class="modal fade" id="patientModal_@patient.Id" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Modifier le Patient</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form asp-controller="Doctor" asp-action="UpdatePatient" method="post">
+                        <input type="hidden" name="id" value="@patient.Id" />
+                        <div class="modal-body">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">PrÃ©nom</label>
+                                        <input type="text" class="form-control" value="@patient.FirstName" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nom</label>
+                                        <input type="text" class="form-control" value="@patient.LastName" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">RÃ©sultat du Test</label>
+                                <select name="resultatTest" class="form-select">
+                                    <option value="alzheimer-maladi" selected="@(patient.ResultatTest == "alzheimer-maladi")">Alzheimer-Maladi</option>
+                                    <option value="non-maladia-alzheimer" selected="@(patient.ResultatTest == "non-maladia-alzheimer")">Non-Maladia-Alzheimer</option>
+                                    <option value="" selected="@(string.IsNullOrEmpty(patient.ResultatTest))">En attente</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+ <!-- Image View Modal -->
+        <div class="modal fade" id="imageModal_@patient.Id" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-image me-2"></i>Image IRM</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        @if (patient.MRI_Image != null)
+                        {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(patient.MRI_Image)"
+                             class="img-fluid"
+                             alt="Image IRM de @patient.FirstName @patient.LastName">
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-        // Search functionality
-        document.getElementById('searchButton').addEventListener('click', function() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('tbody tr');
+            // Search functionality
+            document.getElementById('searchButton').addEventListener('click', function () {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const rows = document.querySelectorAll('tbody tr');
 
-            rows.forEach(row => {
-                const name = row.querySelector('.fw-medium').textContent.toLowerCase();
-                const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                rows.forEach(row => {
+                    const name = row.querySelector('.fw-medium').textContent.toLowerCase();
+                    const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
 
-                if (name.includes(searchTerm) || email.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
+                    if (name.includes(searchTerm) || email.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // Handle Enter key in search
+            document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('searchButton').click();
                 }
             });
-        });
-
-        // Handle Enter key in search
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('searchButton').click();
-            }
-        });
         </script>
     </body>
 </html>
