@@ -309,7 +309,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-brain"></i>Détection Alzheimer
+                <i class="fas fa-brain"></i>Detection Alzheimer
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -317,13 +317,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i>Tableau de bord</a>
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i>Tableau de Bord</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-file-medical me-1"></i>Mes résultats</a>
+                        <a class="nav-link" href="#"><i class="fas fa-file-medical me-1"></i>Mes Résultats</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user me-1"></i>Mon profil</a>
+                        <a class="nav-link" href="#"><i class="fas fa-user me-1"></i>Mon Profil</a>
                     </li>
                 </ul>
                 <div class="ms-lg-3 mt-3 mt-lg-0">
@@ -343,31 +343,238 @@
         </div>
     </nav>
 
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- Welcome Card -->
+            <div class="welcome-card">
+                <div class="welcome-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h2>Bienvenue sur votre espace patient, <strong>@Model.FirstName @Model.LastName</strong> <span class="patient-badge">Accès Patient</span></h2>
+                <p class="lead">Cet espace vous permet de suivre votre santé cognitive et d'accéder à vos résultats d'analyse.</p>
+            </div>
+            
+            <h2 class="dashboard-title">Comprendre la Maladie d'Alzheimer</h2>
+            
+            <div class="row">
+                <!-- What is Alzheimer? -->
+                <div class="col-lg-4 mb-4">
+                    <div class="info-card">
+                        <div class="card-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3 class="card-title">Qu'est-ce que la maladie d'Alzheimer ?</h3>
+                        <p>La maladie d'Alzheimer est une maladie neurodégénérative qui entraîne un déclin progressif des fonctions cognitives. Elle se caractérise par l'accumulation de protéines anormales dans le cerveau qui forment des plaques amyloïdes et des dégénérescences neurofibrillaires.</p>
+                        <p>Ces altérations provoquent la mort des neurones et la réduction du volume cérébral, particulièrement dans les régions associées à la mémoire et aux fonctions exécutives.</p>
+                    </div>
+                </div>
+                
+                <!-- Symptoms -->
+                <div class="col-lg-4 mb-4">
+                    <div class="info-card">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="card-title">Symptômes et Signes Précoces</h3>
+                        <p>Les premiers signes d'Alzheimer incluent souvent :</p>
+                        <ul class="text-start">
+                            <li>Perte de mémoire affectant la vie quotidienne</li>
+                            <li>Difficultés à planifier ou résoudre des problèmes</li>
+                            <li>Problèmes pour accomplir des tâches familières</li>
+                            <li>Confusion avec le temps ou l'espace</li>
+                            <li>Difficultés à suivre des conversations</li>
+                            <li>Changements d'humeur et de personnalité</li>
+                        </ul>
+                        <p>Une détection précoce permet une meilleure prise en charge.</p>
+                    </div>
+                </div>
+                
+                <!-- Prevention -->
+                <div class="col-lg-4 mb-4">
+                    <div class="info-card">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="card-title">Prévention et Facteurs de Risque</h3>
+                        <p>Plusieurs facteurs peuvent influencer le développement de la maladie :</p>
+                        <ul class="text-start">
+                            <li>Âge (principal facteur de risque)</li>
+                            <li>Antécédents familiaux</li>
+                            <li>Génétique (gène APOE ε4)</li>
+                            <li>Maladies cardiovasculaires</li>
+                            <li>Mode de vie (alimentation, exercice)</li>
+                        </ul>
+                        <p>Des études montrent qu'un mode de vie sain peut réduire jusqu'à 30% le risque de développer la maladie.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Test Results -->
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="result-card">
+                        @{
+                            var resultClass = "";
+                            var resultIcon = "";
+                            var resultTitle = "";
+                            var resultDescription = "";
+
+                            if (Model.ResultatTest == "alzheimer-maladi")
+                            {
+                                resultClass = "result-positive";
+                                resultIcon = "fas fa-exclamation-triangle";
+                                resultTitle = "Résultat de Test Positif pour Alzheimer";
+                                resultDescription = @"<p>Votre dernière analyse IRM montre des signes compatibles avec la maladie d'Alzheimer.</p>
+                                                      <p>Ce résultat nécessite une confirmation par un médecin spécialiste et des examens complémentaires.</p>";
+                            }
+                            else if (Model.ResultatTest == "non-maladia-alzheimer")
+                            {
+                                resultClass = "result-negative";
+                                resultIcon = "fas fa-check-circle";
+                                resultTitle = "Résultat de Test Négatif pour Alzheimer";
+                                resultDescription = @"<p>Votre dernière analyse IRM ne montre pas de signes caractéristiques de la maladie d'Alzheimer.</p>
+                                                      <p>Nous vous recommandons de continuer à suivre un mode de vie sain pour préserver votre santé cognitive.</p>";
+                            }
+                            else
+                            {
+                                resultClass = "result-pending";
+                                resultIcon = "fas fa-hourglass-half";
+                                resultTitle = "En Attente de Résultats";
+                                resultDescription = @"<p>Votre analyse IRM est en cours d'évaluation par notre système d'intelligence artificielle.</p>
+                                                      <p>Vous recevrez vos résultats sous 24 à 48 heures. Merci de votre patience.</p>";
+                            }
+                        }
+
+                        <div class="result-icon @resultClass">
+                            <i class="@resultIcon"></i>
+                        </div>
+                        <h3 class="result-title">@Html.Raw(resultTitle)</h3>
+                        
+                        <div class="result-description">
+                            @Html.Raw(resultDescription)
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="@Url.Action("DownloadReport", "Patient")" class="btn-action">
+                                <i class="fas fa-download me-2"></i>Télécharger le Rapport Complet
+                            </a>
+                            <a href="#" class="btn-action btn-secondary-action">
+                                <i class="fas fa-calendar me-2"></i>Prendre Rendez-vous
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brain Health Section -->
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="brain-section">
+                        <h3 class="card-title">IRM Cérébrale et Diagnostic Précoce</h3>
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                             alt="IRM cérébrale montrant des changements dans la maladie d'Alzheimer" class="brain-image">
+                        <p>L'imagerie par résonance magnétique (IRM) est un outil essentiel dans le diagnostic précoce de la maladie d'Alzheimer.</p>
+                        <p>Notre technologie d'IA analyse les images IRM pour détecter des changements subtils dans la structure cérébrale, notamment :</p>
+                        <ul class="text-start">
+                            <li>Réduction du volume de l'hippocampe</li>
+                            <li>Atrophie corticale dans les régions temporales et pariétales</li>
+                            <li>Élargissement des ventricules cérébraux</li>
+                            <li>Changements dans la matière blanche</li>
+                        </ul>
+                        <p>Ces changements peuvent être détectés plusieurs années avant l'apparition des symptômes cliniques.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="testimonial-card">
+                        <h3 class="card-title text-white">Témoignage Patient</h3>
+                        <p class="testimonial-text">
+                            "Grâce au dépistage précoce, j'ai pu bénéficier d'un traitement qui a ralenti l'évolution de ma maladie. 
+                            L'équipe médicale a été d'un grand soutien tout au long du processus."
+                        </p>
+                        <p class="testimonial-author">- Jean Dupont, patient depuis 2021</p>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3 class="card-title">Actions Préventives</h3>
+                        <p>Adoptez ces habitudes pour préserver votre santé cognitive :</p>
+                        <div class="row text-start">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="card-icon me-3" style="font-size: 1.5rem; color: var(--success);">
+                                        <i class="fas fa-apple-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Alimentation Méditerranéenne</h6>
+                                        <p class="small">Riche en fruits, légumes, poissons et huile d'olive</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="card-icon me-3" style="font-size: 1.5rem; color: var(--success);">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Activité Cognitive</h6>
+                                        <p class="small">Lecture, puzzles, apprentissage continu</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="card-icon me-3" style="font-size: 1.5rem; color: var(--success);">
+                                        <i class="fas fa-running"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Exercice Régulier</h6>
+                                        <p class="small">30 minutes par jour, 5 jours par semaine</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="card-icon me-3" style="font-size: 1.5rem; color: var(--success);">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Vie Sociale Active</h6>
+                                        <p class="small">Maintenir des relations sociales enrichissantes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn-action btn-success-action mt-3">
+                            <i class="fas fa-book me-2"></i>Guide de Prévention Complet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
-                    <h4 class="footer-title">Détection Alzheimer</h4>
-                    <p>Plateforme innovante de détection précoce de la maladie d’Alzheimer par analyse d’images IRM avec intelligence artificielle.</p>
+                    <h4 class="footer-title">Detection Alzheimer</h4>
+                    <p>Plateforme innovante de détection précoce de la maladie d'Alzheimer par analyse d'images IRM avec intelligence artificielle.</p>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h4 class="footer-title">Liens rapides</h4>
                     <div class="footer-links">
                         <a href="/"><i class="fas fa-chevron-right me-2"></i>Accueil</a>
-                        <a href="#"><i class="fas fa-chevron-right me-2"></i>Tableau de bord</a>
+                        <a href="#"><i class="fas fa-chevron-right me-2"></i>Tableau de Bord</a>
                         <a href="#"><i class="fas fa-chevron-right me-2"></i>Résultats</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <h4 class="footer-title">Contact</h4>
-                    <p><i class="fas fa-map-marker-alt me-2"></i>Errachidia Ain Ati2</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Errachidia Ain ati2</p>
                     <p><i class="fas fa-phone me-2"></i>+21269029018</p>
                     <p><i class="fas fa-envelope me-2"></i>contact@detection-alzheimer.ma</p>
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 Détection Alzheimer. Tous droits réservés.</p>
+                <p>&copy; 2023 Detection Alzheimer. Tous droits réservés.</p>
             </div>
         </div>
     </footer>
@@ -376,14 +583,14 @@
     <script>
         // Animation pour les boutons d'action
         document.querySelectorAll('.btn-action').forEach(button => {
-            button.addEventListener('mouseenter', function () {
+            button.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-3px)';
             });
-            button.addEventListener('mouseleave', function () {
+            button.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0)';
             });
         });
-
+        
         // Vérification de session pour prévenir les déconnexions
         setInterval(() => {
             fetch('/Account/CheckSession')

@@ -62,5 +62,7 @@ namespace Alzheimer_Detection.Controllers
 				return StatusCode(500, $"Erreur lors de la génération du rapport: {ex.Message}");
 			}
 		}
+
+
 	}
 }
